@@ -8,7 +8,6 @@ export const createEvent = async (req: Request, res: Response) => {
     const event = await eventService.createEvent(req.body);
     res.status(201).json(event);
   } catch (error) {
-    console.error('Erro ao criar evento:', error);
     res.status(500).json({ error: 'Erro interno do servidor' });
   }
 };
