@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package event;
+
+option go_package = "./proto;event";
+
+service EventProcessor {
+  rpc ProcessEvent (EventRequest) returns (EventResponse);
+}
+
+message EventRequest {
+  string userId = 1;
+  string type = 2;
+  string createdAt = 3;
+  string metadata = 4; // JSON como string
+}
+
+message EventResponse {
+  bool success = 1;
+  string message = 2;
+}
