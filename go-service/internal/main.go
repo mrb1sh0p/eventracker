@@ -1,13 +1,14 @@
 package main
 
 import (
-    "fmt"
-    "log"
-    "net"
-		"context"
+	"context"
+	"fmt"
+	"log"
+	"net"
 
-    "google.golang.org/grpc"
-    pb "go-service/proto" 
+	pb "go-service/proto"
+
+	"google.golang.org/grpc"
 )
 
 type eventServer struct {
@@ -22,11 +23,13 @@ func (s *eventServer) ProcessEvent(ctx context.Context, req *pb.EventRequest) (*
 	}, nil
 }
 
+
 func main() {
     lis, err := net.Listen("tcp", ":50051")
     if err != nil {
         log.Fatalf("failed to listen: %v", err)
     }
+
 
     grpcServer := grpc.NewServer()
 

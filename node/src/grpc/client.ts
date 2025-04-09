@@ -12,7 +12,7 @@ const packageDef = protoLoader.loadSync('./src/grpc/event.proto', {
 const proto = grpc.loadPackageDefinition(packageDef) as any;
 
 const client = new proto.event.EventProcessor(
-  'localhost:50051',
+  process.env.GRPC_TARGET || 'localhost:50051',
   grpc.credentials.createInsecure()
 );
 

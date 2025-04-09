@@ -3,6 +3,11 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { AppDataSource } from './ormconfig';
 import { createEvent } from './controllers/EventController';
+import dotenv from 'dotenv';
+
+dotenv.config({
+  path: './.env',
+});
 
 const app = express();
 const port = 3000;

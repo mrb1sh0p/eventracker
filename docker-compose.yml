@@ -1,0 +1,48 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: pg-events
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  node-service:
+    build:
+      context: ./node-service
+    depends_on:
+      - postgres
+      - go-service
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - GRPC_TARGET=${GRPC_TARGET}
+      - NODE_PORT=${NODE_PORT}
+    ports:
+      - '${NODE_PORT}:3000'
+    volumes:
+      - ./node-service:/app
+    command: npm run start:dev
+
+  go-service:
+    build:
+      context: ./go-service
+    env_file:
+      - .env
+    environment:
+      - GRPC_PORT=${GRPC_PORT}
+    ports:
+      - '${GRPC_PORT}:50051'
+    volumes:
+      - ./go-service:/app
+    working_dir: /app
+    command: go run internal/main.go
+
+volumes:
+  pgdata:
